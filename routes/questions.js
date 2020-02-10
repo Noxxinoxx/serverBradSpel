@@ -92,16 +92,33 @@ router.post("/remove", requireLogin, (req, res) => {
   }
 });
 
-// Handle logout requests by clearing cookie and session
-router.post("/logout", requireLogin, (req, res) => {
-  req.session.destroy(err => {
+router.get("/getUser", requireLogin, (req, res) => {
+  QuestionData.find({ author: req.user.id }, (err, questions) => {
     if (err) {
-      return res.status(400).send("Error while logging out");
-    }
+      res.status(400).send("Error while reading from database");
+    } else if (questions.length < 1) {
+      res.status(400).send("User has written no questions");
+    } else {
+      // Change question array into array of app-readable questions
+      function parseQuestion(q) {
+        return {
+          title: q.title,
+          a1: q.a1,
+          a2: q.a2,
+          a3: q.a3,
+          a4: q.a4,
+          categ: q.categ,
+          diff: q.diff,
+        }
+      }
 
-    res.clearCookie("sessid");
-    res.status(200).send("Logged out");
-  });
-});
+      let parsedQuestions = [];
+      for (question of questions) {
+        parsedQuestions.push(parseQuestion(question));
+      }
+      res.status(200).send(JSON.stringify(parsedQuestions));
+    }
+  })
+})
 
 module.exports = router;

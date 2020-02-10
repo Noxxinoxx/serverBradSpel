@@ -34,7 +34,7 @@ router.post("/new", requireLogin, (req, res) => {
     QuestionData.findOne({ title: title }, (err, question) => {
       if (err) {
         // If unable to read from database, send back error
-        res.status(400).send("Error");
+        res.status(400).send("Error while reading from database");
       }
       
       // If a question is found, send back error
@@ -59,10 +59,10 @@ router.post("/new", requireLogin, (req, res) => {
               res.status(200).send("Question saved successfully");
             })
             .catch(error => {
-              res.status(400).send("Error: " + error);
+              res.status(400).send("Error while saving: " + error);
             })
         } catch(error) {
-          res.status(400).send("Error: " + error);
+          res.status(400).send("Error while creating data model, data input types might be incorrect: " + error);
         }
         
       }
@@ -82,7 +82,7 @@ router.post("/remove", requireLogin, (req, res) => {
     QuestionData.deleteOne({ title: title, author: req.user.id }, (err) => {
       if (err) {
         // If unable to read from database, send back error
-        res.status(400).send("Error");
+        res.status(400).send("Error while reading from database");
       } else {
         res.status(200).send("Question deleted successfully");
       }
@@ -96,7 +96,7 @@ router.post("/remove", requireLogin, (req, res) => {
 router.post("/logout", requireLogin, (req, res) => {
   req.session.destroy(err => {
     if (err) {
-      return res.status(400).send("Error");
+      return res.status(400).send("Error while logging out");
     }
 
     res.clearCookie("sessid");

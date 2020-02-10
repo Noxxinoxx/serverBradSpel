@@ -1,7 +1,6 @@
-// Router for handling HTTP requests
+// Router for handling requests to save and get questions
 
 const express = require('express');
-const bcrypt = require('bcrypt');
 
 const router = express.Router();
 
@@ -32,7 +31,7 @@ router.post("/new", requireLogin, (req, res) => {
   // Check so all data exists
   if (title && a1 && a2 && a3 && a4 && categ && diff) {
     // See if question already exists
-    UserData.findOne({ title: title }, (err, question) => {
+    QuestionData.findOne({ title: title }, (err, question) => {
       if (err) {
         // If unable to read from database, send back error
         res.status(400).send("Error");
@@ -66,6 +65,26 @@ router.post("/new", requireLogin, (req, res) => {
           res.status(400).send("Error: " + error);
         }
         
+      }
+    });
+  } else {
+    res.status(400).send("Missing data");
+  }
+});
+
+// Handling question deletion requests
+router.post("/remove", requireLogin, (req, res) => {
+  const { title } = req.body;
+
+  // Check so all data exists
+  if (title) {
+    // See if question already exists
+    QuestionData.deleteOne({ title: title, author: req.user.id }, (err) => {
+      if (err) {
+        // If unable to read from database, send back error
+        res.status(400).send("Error");
+      } else {
+        res.status(200).send("Question deleted successfully");
       }
     });
   } else {

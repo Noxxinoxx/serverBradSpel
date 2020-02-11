@@ -131,19 +131,34 @@ router.post("/getQuestion", requireLogin, (req, res) => {
     if (params.checkedAllt || params.checkedGeografi) checked.push("Geografi");
     if (params.checkedAllt || params.checkedSvenska) checked.push("Svenska");
     const nonChecker = {$or: [true, false]};
-    const eStatement = diff==="easy"? true : nonChecker;
-    const mStatement = diff==="medium"? true : nonChecker;
-    const hStatement = diff==="hard"? true : nonChecker;
-    console.log(`Statements: ${eStatement} ${mStatement} ${hStatement}`)
 
+    queryParams = { 
+      categ: {$in: checked}, 
+      author: req.user.id,
+    }
+    // Only look for the difficulty entered as true if that diff is selected, otherwise look for true or false
+    diff==="easy"? queryParams["diff.e"] = true : queryParams["$or"] = [{"diff.e": true, "diff.e": false}];
+    diff==="medium"? queryParams["diff.m"] = true : queryParams["$or"] = [{"diff.m": true, "diff.m": false}];
+    diff==="hard"? queryParams["diff.h"] = true : queryParams["$or"] = [{"diff.h": true, "diff.h": false}];
     
     if (diff === "easy" || diff === "medium" || diff === "hard") {
-      QuestionData.findRandom({ categ: {$in: checked}, author: req.user.id, "diff.e": eStatement, "diff.m": mStatement, "diff.h": hStatement }, {}, {limit: 1}, (err, result) => {
+      QuestionData.findRandom(queryParams, {}, {limit: 1}, (err, result) => {
         if (err) {
           res.status(400).send("Error while reading from database " + err);
         } else {
           if (result && result.length > 0) {
-            res.status(200).send(JSON.stringify(result[0]));
+            // Make a more client readable JSON and send back
+            const saved = result[0];
+            const clientReadable = {
+              title: saved.title,
+              a1: saved.a1,
+              a2: saved.a2,
+              a3: saved.a3,
+              a4: saved.a4,
+              categ: saved.categ,
+              diff: diff,
+            }
+            res.status(200).send(JSON.stringify(clientReadable));
           } else {
             res.status(400).send("Found no questions");
           }

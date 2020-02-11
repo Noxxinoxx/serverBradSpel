@@ -121,4 +121,41 @@ router.get("/getUser", requireLogin, (req, res) => {
   })
 })
 
+router.post("/getQuestion", requireLogin, (req, res) => {
+  const { diff, params } = req.body;
+
+  if (diff && params) {
+    let checked = []; // Set up filters to look for
+    if (params.checkedAllt || params.checkedMatte) checked.push("Matte");
+    if (params.checkedAllt || params.checkedEngelska) checked.push("Engelska");
+    if (params.checkedAllt || params.checkedGeografi) checked.push("Geografi");
+    if (params.checkedAllt || params.checkedSvenska) checked.push("Svenska");
+    const nonChecker = {$or: [true, false]};
+    const eStatement = diff==="easy"? true : nonChecker;
+    const mStatement = diff==="medium"? true : nonChecker;
+    const hStatement = diff==="hard"? true : nonChecker;
+    console.log(`Statements: ${eStatement} ${mStatement} ${hStatement}`)
+
+    
+    if (diff === "easy" || diff === "medium" || diff === "hard") {
+      QuestionData.findRandom({ categ: {$in: checked}, author: req.user.id, "diff.e": eStatement, "diff.m": mStatement, "diff.h": hStatement }, {}, {limit: 1}, (err, result) => {
+        if (err) {
+          res.status(400).send("Error while reading from database " + err);
+        } else {
+          if (result && result.length > 0) {
+            res.status(200).send(JSON.stringify(result[0]));
+          } else {
+            res.status(400).send("Found no questions");
+          }
+        }
+      })
+    } else {
+      res.status(400).send("Invalid difficulty");
+    }
+  
+  } else {
+    res.status(400).send("Missing data");
+  }
+})
+
 module.exports = router;

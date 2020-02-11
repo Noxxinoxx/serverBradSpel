@@ -1,6 +1,7 @@
 // Model for users (apps)
 
 const mongoose = require('mongoose');
+const random = require('mongoose-simple-random');
 
 // Set up schemas for Mongoose
 const Schema = mongoose.Schema;
@@ -14,6 +15,6 @@ const questionDataSchema = new Schema({
   a4: {type: Object, required: true},
   categ: {type: String, required: true}, // Category
   diff: {type: Object, required: true}, // { e: false, m: false, h: false }
-}, {collection: "questions"}); // Data object for the users collection
+}, {collection: "questions"}).plugin(random); // Use random plugin to allow certain function
 
 module.exports = mongoose.model("question", questionDataSchema);

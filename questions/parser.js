@@ -17,7 +17,11 @@ const red = fs.readFileSync("./red.txt", {encoding: "UTF-8"});
 const redLines = red.split("\n");
 
 for (str of redLines) {
-  const questionPattern = /-\t(.+?) =/
+  const questionPattern = /(\w.+?) =/;
   const question = questionPattern.exec(str)[1];
-  console.log(question);
+  const corrAnswerPattern = /\((.+?)\)/;
+  const corrAnswer = corrAnswerPattern.exec(str)[1];
+  const incoAnswerPattern = /(\)|\.) [\w-,° ]+\./g;
+  const incoAnswers = incoAnswerPattern.exec(str)[1];
+  console.log(`Fråga: ${question} Svar: ${corrAnswer} Fel svar: ${JSON.stringify(incoAnswers)}`);
 }

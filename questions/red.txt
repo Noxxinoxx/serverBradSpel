@@ -4,7 +4,7 @@
 -	Hur många grader är den absoluta nollpunkten? = (-273°) -245°. -282°. -264°.
 -	Vilket företag lanserade den första VHS-spelaren? = (JVC) Panasonic. Samsung. Philips.
 -	Vilket är till ytan Afrikas största land? = (Algeriet) Kongo-Kinshasa. Sudan. Libyen.
--	Hur mycket väger en människas hjärna? = (1-1,5 kg) 1,5-2 kg. 05-1 kg 2-2,5 kg.
+-	Hur mycket väger en människas hjärna? = (1-1,5 kg) 1,5-2 kg. 0,5-1 kg. 2-2,5 kg.
 -	Vilket år lanserades world wide web? = (1983) 1978. 1991. 1969.
 -	Vilken färg är det på Kalle-Ankas mössa? = (Blå) Vit. Gul. Svart.
 -	I vilket hav spränges Pearl Harbor? = (Stilla havet) Medelhavet. Röda havet. Atlanten.
@@ -37,9 +37,9 @@
 -	Vad kallas golvet på en båt? = (Durk) Nurd. Drun. Andu.
 -	Vad heter Judendomens motsvarighet till Bibeln och koranen? = (Tanakh) Nakut. Potil. Altin.
 -	I vilket väderstreck går solen ner? = (Väst) Nord. Syd. Öst.
--	Fortsätt uttrycket. De synder man mest ångrar på gamla dar? = (Är de man inte begått) Är det man kommer att begå.  Är det man önskar att man begått. Är det någon annan har begått.
+-	Avsluta meningen: "De synder man mest ångrar på gamla dar..." = (är de man inte begått) är de man kommer att begå.  är de man önskar att man begått. är de någon annan har begått.
 -	Hur många mjölktänder tappar en människa som barn? = (20) 17. 23. 15.
--	Vilken är världens fjärde största världsdel? = (Sydamerika) Asien. Afrika Australien.
+-	Vilken är världens fjärde största världsdel? = (Sydamerika) Asien. Afrika. Australien.
 -	Vilket är det näst största landskapet i Sverige? = (Norbotten) Lappland. Dalarna. Småland.
 -	Vad arbetar du med om du är Gemmolog? = (Expert på ädelstenar) Expert på blommor. Expert på möbler. Expert på Citrusfrukter.
 -	Vem utav följande har fått nobelpris i litteratur? = (Selma Lagerlöf) Astrid Lindgren. Ingrid Bergmann. Lisa Adelsdotter.

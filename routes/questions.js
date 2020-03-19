@@ -31,7 +31,7 @@ router.post("/new", requireLogin, (req, res) => {
   // Check so all data exists
   if (title && a1 && a2 && a3 && a4 && categ && diff) {
     // See if question already exists
-    QuestionData.findOne({ title: title }, (err, question) => {
+    QuestionData.findOne({ title: title, author: req.user.userId }, (err, question) => {
       if (err) {
         // If unable to read from database, send back error
         res.status(400).send("Error while reading from database");

@@ -7,6 +7,8 @@ const router = express.Router();
 
 // Fetch Mongoose models
 const UserData = require('../mongoose-models/user');
+const QuestionData = require('../mongoose-models/question');
+const ConstQuestion = require('../mongoose-models/constquestion');
 
 // Block if / if not logged in middlewares
 const blockLogin = (req, res, next) => {
@@ -95,6 +97,13 @@ router.post("/register", blockLogin, (req, res) => {
           console.log("Error while saving new user: " + err);
           res.status(400).send("Error");
         });
+
+      // Copy over all constant questions to questions with user as author
+      ConstQuestion.find()
+        .then(constQuestions => {
+          QuestionData.insertMany(constQuestions)
+            .catch(console.log);
+        })
     }
   });
 });

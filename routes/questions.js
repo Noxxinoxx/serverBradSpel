@@ -130,7 +130,8 @@ router.post("/getQuestion", requireLogin, (req, res) => {
     if (params.checkedAllt || params.checkedEngelska) checked.push("Engelska");
     if (params.checkedAllt || params.checkedGeografi) checked.push("Geografi");
     if (params.checkedAllt || params.checkedSvenska) checked.push("Svenska");
-    const nonChecker = {$or: [true, false]};
+    if (params.checkedAllt) checked.push("Övrigt");
+    // const nonChecker = {$or: [true, false]};
 
     queryParams = { 
       categ: {$in: checked}, 

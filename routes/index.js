@@ -92,18 +92,23 @@ router.post("/register", blockLogin, (req, res) => {
       newUser.save()
         .then(user => {
           res.status(200).send(`Created user ${user.name}`);
+
+          // Copy over all constant questions to questions with user as author
+          ConstQuestion.find()
+          .then(constQuestions => {
+            constQuestions.forEach(doc => {
+              const copy = Object.assign({}, doc.toObject());
+              copy.author = user._id;
+              const copyDoc = new QuestionData(copy);
+              copyDoc.save()
+                .catch(console.log);
+            });
+          });
         })
         .catch(err => {
           console.log("Error while saving new user: " + err);
           res.status(400).send("Error");
         });
-
-      // Copy over all constant questions to questions with user as author
-      ConstQuestion.find()
-        .then(constQuestions => {
-          QuestionData.insertMany(constQuestions)
-            .catch(console.log);
-        })
     }
   });
 });

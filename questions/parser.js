@@ -15,7 +15,7 @@ mongoose.connect(DBURL, {useNewUrlParser: true})
 // Fetch Mongoose models
 const ConstQuestion = require('../mongoose-models/constquestion');
 
-async function parseLine(str, increaseCount) {
+async function parseLine(str, diff, increaseCount) {
   const questionPattern = /(\w.+?) =/;
   const question = questionPattern.exec(str)[1];
   const corrAnswerPattern = /\((.+?)\)/;
@@ -34,7 +34,7 @@ async function parseLine(str, increaseCount) {
     a3: { a: incoAns2, c: false },
     a4: { a: incoAns3, c: false },
     categ: "Övrigt",
-    diff: { e: false, m: false, h: true },
+    diff: { e: diff==="e", m: diff==="m", h: diff==="h" },
   });
   await newQuestion.save(err => {
     if (err)
@@ -63,13 +63,13 @@ async function main() {
 
   // Loop over red questions and find all parts using RegExp (urghh)
   for (let str of redLines) {
-    await parseLine(str, () => questionCount++);
+    await parseLine(str, "h", () => questionCount++);
   }
   for (let str of yellowLines) {
-    await parseLine(str, () => questionCount++);
+    await parseLine(str, "m", () => questionCount++);
   }
   for (let str of greenLines) {
-    await parseLine(str, () => questionCount++);
+    await parseLine(str, "e", () => questionCount++);
   }
 
   console.log("\x1b[32m%s\x1b[0m", `Finished adding all (${questionCount}) entries to database`);

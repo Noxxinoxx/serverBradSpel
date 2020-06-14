@@ -99,6 +99,7 @@ router.post("/register", blockLogin, (req, res) => {
             constQuestions.forEach(doc => {
               const copy = Object.assign({}, doc.toObject());
               copy.author = user._id;
+              delete copy._id;
               const copyDoc = new QuestionData(copy);
               copyDoc.save()
                 .catch(console.log);
